@@ -57,7 +57,9 @@ mark {
     height: 0;
     visibility: hidden;
 }
-
+.text-align-center{
+    text-align:center;
+}
 h1, h2, h3,
 h4, h5, h6 {
     color: #000;
@@ -89,7 +91,7 @@ h5, h6 {
         padding: 0;
         text-decoration: none;
     }
-
+ 
 /* main layout
 ----------------------------------------------------------*/
 .content-wrapper {
@@ -327,7 +329,7 @@ aside {
 }
 
 #MainContent_APIKeyLbl {
-    margin-left: 20px;
+    /*margin-left: 20px;*/
 }
 
 /* login page */
@@ -431,6 +433,7 @@ input, textarea {
 textarea {
     font-family: inherit;
     width: 500px;
+    height:150px;
 }
 
     input:focus, textarea:focus {
@@ -770,3 +773,27 @@ tr.pager td {
         }
 }
 /* END: Mobile Styles */
+/*Radio Button Styles*/
+#MainContent_rbtLst tr td{width:40%;}
+#MainContent_rbtLst tr td input{float: left;width: 20%;}
+#MainContent_rbtLst tr td label{float: left;/*width: 80%;*/}
+/*New Classes*/
+#MainContent_FormPanel .content-wrapper input[type=text]{
+    width: 700px;
+}
+.content-wrapper .form{
+margin: 5em auto 0 auto;
+width: 75%;
+}
+#MainContent_FormPanel .content-wrapper span{
+    width: 100px;
+display: inline-block;
+}
+table#MainContent_rbtLst{
+    margin:0;
+}
+table#MainContent_rbtLst input[type=radio]
+{
+    margin-left: 0;
+}
+

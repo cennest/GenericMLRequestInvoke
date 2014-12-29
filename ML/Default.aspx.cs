@@ -14,6 +14,7 @@ using System.Net;
 using System.Web.Script.Serialization;
 using System.ComponentModel;
 using System.Drawing;
+using System.Collections;
 
 
 namespace ML
@@ -46,23 +47,42 @@ namespace ML
         {
             if (!IsPostBack)
             {
-                GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+               // GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                UpdatePanel1.Visible = false;
+                JSONPanel.Visible = false;
             }
         }
 
         protected void PostButton_Click(object sender, EventArgs e)
         {
+            ResponseOutputLbl.Visible = true;
             string endPointUrl = this.EndPointTxtBox.Text;
             string apiKey = this.APIKeyTxtBox.Text;
 
-            if (ViewState["RowsCount"] != null)
+            if (UpdatePanel1.Visible)
             {
-                numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
-                GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                if (ViewState["RowsCount"] != null)
+                {
+                    numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
+                    GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                }
+
+                scoreData.FeatureVector = ExtractParameterValue();
+                GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+
+            }
+            else
+            {
+                string json = TextArea.Text;
+                json = json.Trim();
+
+                ScoreRequest scoreRequest = new JavaScriptSerializer().Deserialize<ScoreRequest>(json);
+                int inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
+
+                string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
+                ExtractOutputFromResponse(inputParameterCount, outputString);
             }
 
-            scoreData.FeatureVector = ExtractParameterValue();
-            GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
         }
 
         protected void AddNewRow_Click(object sender, EventArgs e)
@@ -152,7 +172,10 @@ namespace ML
                 var javaScriptSerializer = new JavaScriptSerializer();
                 string json = javaScriptSerializer.Serialize(scoreRequest);
 
-                ResponseOutputLbl.Text = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
+                string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
+                int inputParameterCount = scoreData.FeatureVector.Count;
+                ExtractOutputFromResponse(inputParameterCount, outputString);
+                
 
             }
             catch (Exception ex)
@@ -282,6 +305,40 @@ namespace ML
             }
             
 
+        }
+
+        protected void rbtLst_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ResponseOutputLbl.Visible = false;
+            if (rbtLst.SelectedItem != null)
+            {
+                if (Convert.ToInt32(rbtLst.SelectedItem.Value) == (int)Enums.SendResponse.PostJSON)
+                {
+                    UpdatePanel1.Visible = false;
+                    JSONPanel.Visible = true;
+                }
+                else if (Convert.ToInt32(rbtLst.SelectedItem.Value) == (int)Enums.SendResponse.KeyValue)
+                {
+                    JSONPanel.Visible = false;
+                    UpdatePanel1.Visible = true;
+                    GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+
+                }
+            } 
+        }
+
+
+        private void ExtractOutputFromResponse(int inputParameterCount, string outputString)
+        {
+            outputString = outputString.TrimStart('[');
+            outputString = outputString.TrimEnd(']');
+            string[] outputArray = outputString.Split(',');
+
+
+            List<string> newArray = outputArray.Skip(inputParameterCount).ToList();
+
+            outputString = string.Join(",", newArray.ToArray());
+            ResponseOutputLbl.Text = outputString;
         }
 
     }
