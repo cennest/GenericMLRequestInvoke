@@ -47,8 +47,9 @@ namespace ML
         {
             if (!IsPostBack)
             {
-               // GenerateTable(numOfRows, TableFunction.Refresh.ToString());
-                UpdatePanel1.Visible = false;
+                rbtLst.SelectedIndex = 1;
+                UpdatePanel1.Visible = true;
+                GenerateTable(numOfRows, TableFunction.Refresh.ToString());
                 JSONPanel.Visible = false;
             }
         }
@@ -340,6 +341,5 @@ namespace ML
             outputString = string.Join(",", newArray.ToArray());
             ResponseOutputLbl.Text = outputString;
         }
-
     }
 }

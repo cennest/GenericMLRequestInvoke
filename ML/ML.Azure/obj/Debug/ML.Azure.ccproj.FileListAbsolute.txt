@@ -1,0 +1,2 @@
+D:\Poulomee\Projects\MachineLearning\MLFromGit\ML\ML.Azure\bin\Debug\ServiceConfiguration.cscfg
+D:\Poulomee\Projects\MachineLearning\MLFromGit\ML\ML.Azure\bin\Debug\ServiceDefinition.csdef
