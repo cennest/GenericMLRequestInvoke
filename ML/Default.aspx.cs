@@ -15,32 +15,16 @@ using System.Web.Script.Serialization;
 using System.ComponentModel;
 using System.Drawing;
 using System.Collections;
+using ML.Helper;
 
 
 namespace ML
 {
-    public class ScoreData
-    {
-        public Dictionary<string, string> FeatureVector { get; set; }
-        public Dictionary<string, string> GlobalParameters { get; set; }
-    }
-
-    public class ScoreRequest
-    {
-        public string Id { get; set; }
-        public ScoreData Instance { get; set; }
-    }
-
-    public enum TableFunction
-    {
-        Add,
-        Delete,
-        Refresh,
-    }
 
     public partial class _Default : Page
     {
         ScoreData scoreData = new ScoreData();
+        UIHelper helper = new UIHelper();
         private int numOfRows = 1;
         const int colsCount = 2;
         protected void Page_Load(object sender, EventArgs e)
@@ -49,7 +33,7 @@ namespace ML
             {
                 rbtLst.SelectedIndex = 1;
                 UpdatePanel1.Visible = true;
-                GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
                 JSONPanel.Visible = false;
             }
         }
@@ -65,11 +49,11 @@ namespace ML
                 if (ViewState["RowsCount"] != null)
                 {
                     numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
-                    GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                    GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
                 }
 
                 scoreData.FeatureVector = ExtractParameterValue();
-                GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+                ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
 
             }
             else
@@ -81,7 +65,7 @@ namespace ML
                 int inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
-                ExtractOutputFromResponse(inputParameterCount, outputString);
+                ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
             }
 
         }
@@ -92,7 +76,7 @@ namespace ML
             {
                 numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
                 numOfRows = numOfRows + 1;
-                GenerateTable(numOfRows, TableFunction.Add.ToString());
+                GenerateTable(numOfRows, ML.Enums.TableFunction.Add.ToString());
                
             }
         }
@@ -103,86 +87,65 @@ namespace ML
             {
                 numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
                 numOfRows = numOfRows - 1;
-                GenerateTable(numOfRows, TableFunction.Delete.ToString());              
+                GenerateTable(numOfRows, ML.Enums.TableFunction.Delete.ToString());              
             }
         }
 
         protected Dictionary<string, string> ExtractParameterValue()
         {
-            string parameter = null;
-            string value = null;
-            scoreData.FeatureVector = new Dictionary<string, string>();
-
-            Table tbl = panelTable.FindControl("ParameterTable") as Table;
-            if (tbl != null)
+            try
             {
-                var i = 0;
-                foreach (TableRow tr in tbl.Rows)
+                string parameter = null;
+                string value = null;
+                scoreData.FeatureVector = new Dictionary<string, string>();
+
+                Table tbl = panelTable.FindControl("ParameterTable") as Table;
+                if (tbl != null)
                 {
-                    foreach (TableCell tc in tr.Controls)
+                    var i = 0;
+                    foreach (TableRow tr in tbl.Rows)
                     {
-                        foreach (Control ctrc in tc.Controls)
+                        foreach (TableCell tc in tr.Controls)
                         {
-                            if (ctrc.ID == "Parameter" + i)
+                            foreach (Control ctrc in tc.Controls)
                             {
-                                if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                if (ctrc.ID == "Parameter" + i)
                                 {
-                                    parameter = (ctrc as TextBox).Text.Trim();
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        parameter = (ctrc as TextBox).Text.Trim();
+                                    }
                                 }
-                            }
-                            else if (ctrc.ID == "Value" + i)
-                            {
-                                if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                else if (ctrc.ID == "Value" + i)
                                 {
-                                    value = (ctrc as TextBox).Text.Trim();
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        value = (ctrc as TextBox).Text.Trim();
+                                    }
                                 }
                             }
                         }
+
+                        if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
+                        {
+                            scoreData.FeatureVector.Add(parameter, value);
+                            parameter = null;
+                            value = null;
+                        }
+
+                        i++;
                     }
 
-                    if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
-                    {
-                        scoreData.FeatureVector.Add(parameter, value);
-                        parameter = null;
-                        value = null;
-                    }
-
-                    i++;
+                    return scoreData.FeatureVector;
                 }
 
-                return scoreData.FeatureVector;
-            }
-
-            return null;
-
-        }
-
-        protected void GetAndPostData(string endPointUrl, string apiKey, Dictionary<string, string> featureVector)
-        {
-            try
-            {
-                scoreData.FeatureVector = featureVector;
-                scoreData.GlobalParameters = new Dictionary<string, string>() { };
-
-                ScoreRequest scoreRequest = new ScoreRequest()
-                {
-                    Id = "score00001",
-                    Instance = scoreData
-                };
-
-                var javaScriptSerializer = new JavaScriptSerializer();
-                string json = javaScriptSerializer.Serialize(scoreRequest);
-
-                string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
-                int inputParameterCount = scoreData.FeatureVector.Count;
-                ExtractOutputFromResponse(inputParameterCount, outputString);
-                
-
+                return null;
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
+
         }
 
         private void SetPreviousData()
@@ -216,6 +179,7 @@ namespace ML
             }
             catch (Exception ex)
             {
+                throw ex;
 
             }
 
@@ -224,85 +188,95 @@ namespace ML
         //Genrates the table dyanmically for the Table Work Experiance and add the to the page
         private void GenerateTable(int rowsCount,string tableFunction)
         {
-            if(rowsCount > 1)
+            try
             {
-                DeleteSingleRow.Enabled = true;
-            }
-            else
-            {
-                DeleteSingleRow.Enabled = false;
-            }
-
-            Table table = new Table();
-
-            table.ID = "ParameterTable";
-
-            panelTable.Controls.Add(table);
-       
-            //adding the head Row to the Table
-            TableHeaderRow headRow = new TableHeaderRow();            
-            headRow.Height = 33;
-
-            TableHeaderCell headCell = new TableHeaderCell();
-            headCell.Text = "Parameter";
-            headCell.Width = 10;
-            headRow.Cells.Add(headCell);
-
-            TableHeaderCell headCell1 = new TableHeaderCell();
-            headCell1.Text = "Value";
-            headRow.Cells.Add(headCell1);
-
-            table.Rows.Add(headRow);
-            int id = 1;
-
-            // Now iterate through the table and add your controls
-            for (int i = 0; i < rowsCount; i++)
-            {
-                TableRow row = new TableRow();
-
-                for (int j = 0; j < colsCount; j++)
+                if (rowsCount > 0 && !String.IsNullOrEmpty(tableFunction))
                 {
-                    TableCell cell = new TableCell();
-                    TextBox tb = new TextBox();
-
-                    // Set a unique ID for each TextBox added
-
-                    if (j == 0)
+                    if (rowsCount > 1)
                     {
-                        tb.ID = "Parameter" + id;
+                        DeleteSingleRow.Enabled = true;
                     }
                     else
                     {
-                        tb.ID = "Value" + id;
+                        DeleteSingleRow.Enabled = false;
                     }
 
-                    // Add the control to the TableCell
-                    cell.Controls.Add(tb);
+                    Table table = new Table();
 
-                    // Add the TableCell to the TableRow
-                    row.Cells.Add(cell);
+                    table.ID = "ParameterTable";
+
+                    panelTable.Controls.Add(table);
+
+                    //adding the head Row to the Table
+                    TableHeaderRow headRow = new TableHeaderRow();
+                    headRow.Height = 33;
+
+                    TableHeaderCell headCell = new TableHeaderCell();
+                    headCell.Text = "Parameter";
+                    headCell.Width = 10;
+                    headRow.Cells.Add(headCell);
+
+                    TableHeaderCell headCell1 = new TableHeaderCell();
+                    headCell1.Text = "Value";
+                    headRow.Cells.Add(headCell1);
+
+                    table.Rows.Add(headRow);
+                    int id = 1;
+
+                    // Now iterate through the table and add your controls
+                    for (int i = 0; i < rowsCount; i++)
+                    {
+                        TableRow row = new TableRow();
+
+                        for (int j = 0; j < colsCount; j++)
+                        {
+                            TableCell cell = new TableCell();
+                            TextBox tb = new TextBox();
+
+                            // Set a unique ID for each TextBox added
+
+                            if (j == 0)
+                            {
+                                tb.ID = "Parameter" + id;
+                            }
+                            else
+                            {
+                                tb.ID = "Value" + id;
+                            }
+
+                            // Add the control to the TableCell
+                            cell.Controls.Add(tb);
+
+                            // Add the TableCell to the TableRow
+                            row.Cells.Add(cell);
+                        }
+
+                        id++;
+
+                        // And finally, add the TableRow to the Table
+                        table.Rows.Add(row);
+                    }
+
+                    //Set Previous Data on PostBacks
+                    SetPreviousData();
+
+                    if (ML.Enums.TableFunction.Delete.ToString().ToLower() == tableFunction.ToLower())
+                    {
+                        ViewState["RowsCount"] = rowsCount;
+                    }
+                    else if (ML.Enums.TableFunction.Add.ToString().ToLower() == tableFunction.ToLower())
+                    {
+                        ViewState["RowsCount"] = rowsCount;
+                    }
+                    else
+                    {
+                        ViewState["RowsCount"] = rowsCount;
+                    }
                 }
-
-                id++;
-
-                // And finally, add the TableRow to the Table
-                table.Rows.Add(row);
             }
-
-            //Set Previous Data on PostBacks
-            SetPreviousData();
-
-            if (TableFunction.Delete.ToString().ToLower() == tableFunction.ToLower())
+            catch (Exception ex)
             {
-                ViewState["RowsCount"] = rowsCount;
-            }
-            else if (TableFunction.Add.ToString().ToLower() == tableFunction.ToLower())
-            {
-                ViewState["RowsCount"] = rowsCount;
-            }
-            else
-            {
-                ViewState["RowsCount"] = rowsCount;
+                throw ex;
             }
             
 
@@ -322,24 +296,11 @@ namespace ML
                 {
                     JSONPanel.Visible = false;
                     UpdatePanel1.Visible = true;
-                    GenerateTable(numOfRows, TableFunction.Refresh.ToString());
+                    GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
 
                 }
             } 
         }
 
-
-        private void ExtractOutputFromResponse(int inputParameterCount, string outputString)
-        {
-            outputString = outputString.TrimStart('[');
-            outputString = outputString.TrimEnd(']');
-            string[] outputArray = outputString.Split(',');
-
-
-            List<string> newArray = outputArray.Skip(inputParameterCount).ToList();
-
-            outputString = string.Join(",", newArray.ToArray());
-            ResponseOutputLbl.Text = outputString;
-        }
     }
 }

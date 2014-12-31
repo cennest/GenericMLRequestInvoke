@@ -12,5 +12,11 @@ namespace ML
            PostJSON = 1,
            KeyValue
         }
+        public enum TableFunction
+        {
+            Add,
+            Delete,
+            Refresh,
+        }
     }
 }

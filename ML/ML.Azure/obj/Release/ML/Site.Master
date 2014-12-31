@@ -11,6 +11,7 @@
     <webopt:BundleReference runat="server" Path="~/Content/css" /> 
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
+     <script src="Scripts/jquery-1.8.2.js"></script>
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
@@ -38,11 +39,10 @@
     </asp:ScriptManager>--%>
     <header>
          <div class="text-align-center">
-            <h1>Azure Machine Learning Console</h1>
+            <h1>Azure ML Online Console</h1>
         </div>
         <div class="content-wrapper">
             <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal" >
-                <StaticSelectedStyle CssClass="selectedMenu" /> 
                 <Items>
                     <asp:MenuItem NavigateUrl="~/Sample.aspx" Text="Sample Experiment"/>
                     <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Your Experiment"/>
@@ -61,5 +61,24 @@
         </div>
     </footer>
     </form>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var pageurl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+                if (pageurl == "") {
+                    pageurl = "Sample.aspx";
+                } 
+                //alert(pageurl);
+                $(".menu ul li").each(function () {
+                    var anchorTag = $(this).children('a');
+                    if (anchorTag.attr("href") == pageurl) {
+                        $(this).addClass("selected");
+                    }
+                    
+            })
+            $('#NavigationMenu > ul > li > a.selected').click(function (event) {
+                event.preventDefault();
+            })
+        })
+    </script>
 </body>
 </html>

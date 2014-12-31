@@ -5,12 +5,14 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using ML.Helper;
 
 namespace ML
 {
     public partial class Sample : System.Web.UI.Page
     {
         ScoreData scoreData = new ScoreData();
+        UIHelper helper = new UIHelper();
         protected void Page_Load(object sender, EventArgs e)
         {
            if (!IsPostBack)
@@ -30,7 +32,7 @@ namespace ML
             if (UpdatePanel1.Visible)
             {
                 scoreData.FeatureVector = ExtractParameterValue();
-                GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+                ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
 
             }
             else
@@ -42,7 +44,7 @@ namespace ML
                 int inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
-                ExtractOutputFromResponse(inputParameterCount, outputString);
+                ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
             }
 
         }
@@ -51,80 +53,59 @@ namespace ML
  
         protected Dictionary<string, string> ExtractParameterValue()
         {
-            string parameter = null;
-            string value = null;
-            scoreData.FeatureVector = new Dictionary<string, string>();
-
-            Table tbl = panelTable.FindControl("ParameterTable") as Table;
-            if (tbl != null)
+            try
             {
-                var i = 0;
-                foreach (TableRow tr in tbl.Rows)
+                string parameter = null;
+                string value = null;
+                scoreData.FeatureVector = new Dictionary<string, string>();
+
+                Table tbl = panelTable.FindControl("ParameterTable") as Table;
+                if (tbl != null)
                 {
-                    foreach (TableCell tc in tr.Controls)
+                    var i = 0;
+                    foreach (TableRow tr in tbl.Rows)
                     {
-                        foreach (Control ctrc in tc.Controls)
+                        foreach (TableCell tc in tr.Controls)
                         {
-                            if (ctrc.ID == "Parameter" + i)
+                            foreach (Control ctrc in tc.Controls)
                             {
-                                if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                if (ctrc.ID == "Parameter" + i)
                                 {
-                                    parameter = (ctrc as TextBox).Text.Trim();
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        parameter = (ctrc as TextBox).Text.Trim();
+                                    }
                                 }
-                            }
-                            else if (ctrc.ID == "Value" + i)
-                            {
-                                if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                else if (ctrc.ID == "Value" + i)
                                 {
-                                    value = (ctrc as TextBox).Text.Trim();
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        value = (ctrc as TextBox).Text.Trim();
+                                    }
                                 }
                             }
                         }
+
+                        if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
+                        {
+                            scoreData.FeatureVector.Add(parameter, value);
+                            parameter = null;
+                            value = null;
+                        }
+
+                        i++;
                     }
 
-                    if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
-                    {
-                        scoreData.FeatureVector.Add(parameter, value);
-                        parameter = null;
-                        value = null;
-                    }
-
-                    i++;
+                    return scoreData.FeatureVector;
                 }
 
-                return scoreData.FeatureVector;
-            }
-
-            return null;
-
-        }
-
-        protected void GetAndPostData(string endPointUrl, string apiKey, Dictionary<string, string> featureVector)
-        {
-            try
-            {
-                scoreData.FeatureVector = featureVector;
-                scoreData.GlobalParameters = new Dictionary<string, string>() { };
-
-                ScoreRequest scoreRequest = new ScoreRequest()
-                {
-                    Id = "score00001",
-                    Instance = scoreData
-                };
-
-                var javaScriptSerializer = new JavaScriptSerializer();
-                string json = javaScriptSerializer.Serialize(scoreRequest);
-
-                string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
-                int inputParameterCount = scoreData.FeatureVector.Count;
-                ExtractOutputFromResponse(inputParameterCount, outputString);
-
-
+                return null;
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
+
         }
 
         protected void rbtLst_SelectedIndexChanged(object sender, EventArgs e)
@@ -144,19 +125,6 @@ namespace ML
 
                 }
             } 
-        }
-
-        private void ExtractOutputFromResponse(int inputParameterCount, string outputString)
-        {
-            outputString = outputString.TrimStart('[');
-            outputString = outputString.TrimEnd(']');
-            string[] outputArray = outputString.Split(',');
-
-
-            List<string> newArray = outputArray.Skip(inputParameterCount).ToList();
-
-            outputString = string.Join(",", newArray.ToArray());
-            ResponseOutputLbl.Text = outputString;
         }
     }
 }

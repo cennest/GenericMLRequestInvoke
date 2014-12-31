@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ML.Azure" generation="1" functional="0" release="0" Id="8de2ee9b-8e81-4b71-914d-1507a4a049a0" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ML.Azure" generation="1" functional="0" release="0" Id="044b8e4c-ad96-43bd-92fa-a008ce5b374c" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="ML.AzureGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -70,9 +70,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="0f458468-30fe-4903-a9bf-cb2d494c1c32" ref="Microsoft.RedDog.Contract\ServiceContract\ML.AzureContract@ServiceDefinition">
+    <implementation Id="000918f7-9929-4193-845d-33514ae5a4e7" ref="Microsoft.RedDog.Contract\ServiceContract\ML.AzureContract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="dff12631-2e93-4889-b8ef-b40f1430bf31" ref="Microsoft.RedDog.Contract\Interface\ML:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="93ced0f8-39f8-4037-ae84-8063f96d4314" ref="Microsoft.RedDog.Contract\Interface\ML:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/ML.Azure/ML.AzureGroup/ML:Endpoint1" />
           </inPort>

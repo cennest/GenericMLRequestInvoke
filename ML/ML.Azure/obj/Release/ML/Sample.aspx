@@ -22,12 +22,12 @@
         <div class="content-wrapper">
             <div>
                 <asp:Label runat="server" Text="EndPoint URL" ID="EndPointLbl"></asp:Label>
-                <asp:TextBox ID="EndPointTxtBox" runat="server" Text="https://ussouthcentral.services.azureml.net/workspaces/fc2a1659df5d4f5fb16c9fd6aaebf458/services/c54e29675c0b444083ef6bc655be78f5/score" ReadOnly="true"></asp:TextBox>
+                <asp:TextBox ID="EndPointTxtBox" runat="server" Text="https://ussouthcentral.services.azureml.net/workspaces/fc2a1659df5d4f5fb16c9fd6aaebf458/services/de1c02358364413f930843019074b247/score" ReadOnly="true"></asp:TextBox>
             </div>
             <br />
             <div>
                 <asp:Label runat="server" Text="API Key" ID="APIKeyLbl"></asp:Label>
-                <asp:TextBox runat="server" ID="APIKeyTxtBox" Text="0feHeToqtjZZFTH+2rF17V7C1qo7RVaIs+kT7AkqqI0711KiHBhI8tyFWFT2T4SO1AtSMjZPecBHrmFPCjdOYA==" ReadOnly="true"></asp:TextBox>
+                <asp:TextBox runat="server" ID="APIKeyTxtBox" Text="4LJiS3e8Z1HRvz2HN84G3j1o/gsGI3S9nF9E5wdSK8zbrqfRgw9x1bWkR4yCP2JvB317gOEpaSN0i3b9yi5X1w==" ReadOnly="true"></asp:TextBox>
             </div>
             <br />
             <div>
@@ -39,19 +39,24 @@
         </div>
         <div id="radioButtonPanel">
             <asp:Panel ID="JSONPanel" runat="server">
-                <asp:TextBox ID="TextArea" TextMode="MultiLine" Columns="50" Rows="5" runat="server" Text="{ 'Id': 'score00001',
+                <asp:TextBox ID="TextArea" TextMode="MultiLine" Columns="50" Rows="5" runat="server" Text="{
+  'Id': 'score00001',
   'Instance': {
     'FeatureVector': {
-      'vtCOPBRWheelSpeed': '2',
-      'vtCOPBRMassFlow': '5',
-      'vtCOPBRRotorDrivePressure': '8',
-      'vtCOPBRRotorSpeed': '2',
-      'vtCOPBRFuelConsumption': '9',
-      'vtCOPBRRotorEfficiency': '0.7'
+      'age': '39',
+      'workclass': 'State-gov',
+      'education': 'Bachelors',
+      'marital-status': 'Never-married',
+      'occupation': 'Adm-clerical',
+      'race': 'White',
+      'sex': 'Male',
+      'hours-per-week': '80',
+      'native-country': 'United-States'
     },
     'GlobalParameters': {}
   }
 } 
+
 "
                     ReadOnly="true"></asp:TextBox>
             </asp:Panel>
@@ -68,55 +73,82 @@
                             </asp:TableHeaderRow>
                             <asp:TableRow>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter1" Text="vtCOPBRWheelSpeed" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Parameter1" Text="age" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value1" Text="2" ReadOnly="true"></asp:TextBox>
-                                </asp:TableCell>
-                            </asp:TableRow>
-
-                            <asp:TableRow>
-                                <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter2" Text="vtCOPBRMassFlow" ReadOnly="true"></asp:TextBox>
-                                </asp:TableCell>
-                                <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value2" Text="5" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Value1" Text="39" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
 
                             <asp:TableRow>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter3" Text="vtCOPBRRotorDrivePressure" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Parameter2" Text="workclass" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value3" Text="8" ReadOnly="true"></asp:TextBox>
-                                </asp:TableCell>
-                            </asp:TableRow>
-
-                            <asp:TableRow>
-                                <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter4" Text="vtCOPBRRotorSpeed" ReadOnly="true"></asp:TextBox>
-                                </asp:TableCell>
-                                <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value4" Text="2" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Value2" Text="State-gov" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
 
                             <asp:TableRow>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter5" Text="vtCOPBRFuelConsumption" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Parameter3" Text="education" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value5" Text="9" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Value3" Text="Bachelors" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
 
                             <asp:TableRow>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Parameter6" Text="vtCOPBRRotorEfficiency" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Parameter4" Text="marital-status" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                                 <asp:TableCell runat="server">
-                                    <asp:TextBox runat="server" ID="Value6" Text="0.7" ReadOnly="true"></asp:TextBox>
+                                    <asp:TextBox runat="server" ID="Value4" Text="Never-married" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+
+                            <asp:TableRow>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Parameter5" Text="occupation" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Value5" Text="Adm-clerical" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+
+                            <asp:TableRow>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Parameter6" Text="race" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Value6" Text="White" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+
+                            <asp:TableRow>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Parameter7" Text="sex" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Value7" Text="Male" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+
+                            <asp:TableRow>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Parameter8" Text="hours-per-week" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Value8" Text="80" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                            </asp:TableRow>
+
+                            <asp:TableRow>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Parameter9" Text="native-country" ReadOnly="true"></asp:TextBox>
+                                </asp:TableCell>
+                                <asp:TableCell runat="server">
+                                    <asp:TextBox runat="server" ID="Value9" Text="United-States" ReadOnly="true"></asp:TextBox>
                                 </asp:TableCell>
                             </asp:TableRow>
 

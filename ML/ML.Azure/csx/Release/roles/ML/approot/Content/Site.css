@@ -784,7 +784,7 @@ tr.pager td {
     padding:0 5em; 
 }
 #FormPanel .content-wrapper input[type=text]{
-    width: 700px;
+    width: 80%;
 }
 .content-wrapper .form{
 margin: 5em auto 0 auto;
@@ -856,7 +856,7 @@ div.menu ul
     padding: 0 10px;
     overflow: hidden;
     margin-bottom: -1px;
-    height: 2.25em;
+    height: 3em;
 }
 
 div.menu ul li
@@ -865,14 +865,19 @@ div.menu ul li
     list-style: none;
     margin: 0;
     padding: .25em .25em 0;
-    height: 2em;
+    height: 2.5em;
     overflow: hidden;
     position: relative;
     z-index: 1;
-    border-bottom: 1px solid #FFF;
+    /*border-bottom: 1px solid #FFF;*/
+    z-index: 3;
+    top:0.7em;
 }
 div.menu ul li.selected{
     z-index: 3;
+    top: -0.2em;
+    height:3em;
+    border-bottom: 1px solid #FFF;
 }
 div.menu ul li a, div.menu ul li a:visited
 {
@@ -913,6 +918,7 @@ div.menu ul li a:hover
     background: -o-linear-gradient(#EEF, #FFF 70%);
     background: linear-gradient(#EEF, #FFF 70%);
     -pie-background: linear-gradient(#EEF, #FFF 70%);
+
 }
 div.menu ul .selected a{
     background: #FFF;
@@ -943,20 +949,22 @@ div.menu ul li a:active
     -moz-box-shadow: #CCC 0 0 .25em;
     box-shadow: #CCC 0 0 .25em;
     text-decoration: none;
+    cursor:default;
+    padding: 8px 20px;
 }
 #body .main-content {
     clear: left;
     position: relative;
     z-index: 2;
     padding: 2em 1em;
-    border: 1px solid #CCC;
+    /*border: 1px solid #CCC;*/
     background: #FFF;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: #CCC 0 0 .25em;
-    -moz-box-shadow: #CCC 0 0 .25em;
-    box-shadow: #CCC 0 0 .25em;
+    -webkit-box-shadow: #CCC 0 0 .50em;
+    -moz-box-shadow: #CCC 0 0 .50em;
+    box-shadow: #CCC 0 0 .50em;
     behavior: url(/pie/PIE.htc);
 }
 
