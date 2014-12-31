@@ -52,7 +52,7 @@ namespace ML
                     GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
                 }
 
-                scoreData.FeatureVector = ExtractParameterValue();
+                scoreData.FeatureVector = helper.ExtractParameterValue(panelTable);
                 ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
 
             }
@@ -89,63 +89,6 @@ namespace ML
                 numOfRows = numOfRows - 1;
                 GenerateTable(numOfRows, ML.Enums.TableFunction.Delete.ToString());              
             }
-        }
-
-        protected Dictionary<string, string> ExtractParameterValue()
-        {
-            try
-            {
-                string parameter = null;
-                string value = null;
-                scoreData.FeatureVector = new Dictionary<string, string>();
-
-                Table tbl = panelTable.FindControl("ParameterTable") as Table;
-                if (tbl != null)
-                {
-                    var i = 0;
-                    foreach (TableRow tr in tbl.Rows)
-                    {
-                        foreach (TableCell tc in tr.Controls)
-                        {
-                            foreach (Control ctrc in tc.Controls)
-                            {
-                                if (ctrc.ID == "Parameter" + i)
-                                {
-                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
-                                    {
-                                        parameter = (ctrc as TextBox).Text.Trim();
-                                    }
-                                }
-                                else if (ctrc.ID == "Value" + i)
-                                {
-                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
-                                    {
-                                        value = (ctrc as TextBox).Text.Trim();
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
-                        {
-                            scoreData.FeatureVector.Add(parameter, value);
-                            parameter = null;
-                            value = null;
-                        }
-
-                        i++;
-                    }
-
-                    return scoreData.FeatureVector;
-                }
-
-                return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
         }
 
         private void SetPreviousData()

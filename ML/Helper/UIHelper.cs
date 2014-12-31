@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace ML.Helper
 {
@@ -66,6 +68,63 @@ namespace ML.Helper
             {
                 throw ex;
             }
+        }
+
+        public Dictionary<string, string> ExtractParameterValue(Panel panelTable)
+        {
+            try
+            {
+                string parameter = null;
+                string value = null;
+                scoreData.FeatureVector = new Dictionary<string, string>();
+
+                Table tbl = panelTable.FindControl("ParameterTable") as Table;
+                if (tbl != null)
+                {
+                    var i = 0;
+                    foreach (TableRow tr in tbl.Rows)
+                    {
+                        foreach (TableCell tc in tr.Controls)
+                        {
+                            foreach (Control ctrc in tc.Controls)
+                            {
+                                if (ctrc.ID == "Parameter" + i)
+                                {
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        parameter = (ctrc as TextBox).Text.Trim();
+                                    }
+                                }
+                                else if (ctrc.ID == "Value" + i)
+                                {
+                                    if (!String.IsNullOrEmpty((ctrc as TextBox).Text.Trim()))
+                                    {
+                                        value = (ctrc as TextBox).Text.Trim();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(parameter) && !String.IsNullOrEmpty(value))
+                        {
+                            scoreData.FeatureVector.Add(parameter, value);
+                            parameter = null;
+                            value = null;
+                        }
+
+                        i++;
+                    }
+
+                    return scoreData.FeatureVector;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }
