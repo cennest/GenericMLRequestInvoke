@@ -38,7 +38,7 @@ namespace ML
             }
         }
 
-        protected void PostButton_Click(object sender, EventArgs e)
+        protected void YourExperimentPostButton_Click(object sender, EventArgs e)
         {
             ResponseOutputLbl.Visible = true;
             string endPointUrl = this.EndPointTxtBox.Text;
@@ -62,7 +62,11 @@ namespace ML
                 json = json.Trim();
 
                 ScoreRequest scoreRequest = new JavaScriptSerializer().Deserialize<ScoreRequest>(json);
-                int inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
+                int inputParameterCount = 0;
+                if (scoreRequest != null)
+                {
+                    inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
+                }
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
                 ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
@@ -242,8 +246,7 @@ namespace ML
                     GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
 
                 }
-            } 
+            }
         }
-
     }
 }

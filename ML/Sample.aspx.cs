@@ -23,8 +23,8 @@ namespace ML
             }
         }
 
-        protected void PostButton_Click(object sender, EventArgs e)
-        {
+        protected void SampleExperimentPostButton_Click(object sender, EventArgs e)
+        {          
             ResponseOutputLbl.Visible = true;
             string endPointUrl = this.EndPointTxtBox.Text;
             string apiKey = this.APIKeyTxtBox.Text;

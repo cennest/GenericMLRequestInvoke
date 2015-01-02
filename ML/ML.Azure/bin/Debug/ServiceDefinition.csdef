@@ -23,5 +23,10 @@
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
+    <Contents>
+      <Content destination=".\">
+        <SourceDirectory path="D:\Poulomee\Projects\MachineLearning\MLFromGit\ML\ML.Azure\rcf\Debug\MLContent\" />
+      </Content>
+    </Contents>
   </WebRole>
 </ServiceDefinition>

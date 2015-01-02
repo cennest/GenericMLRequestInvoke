@@ -8,10 +8,22 @@
             m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
+
         //ga('create', 'UA-58082288-1', 'none');
         ga('create', 'UA-58082288-1', 'auto');
-        ga('send', 'event', 'PostButton', 'DynamicValues', 'clicked');
 
+        $(document).ready(function () {
+            var postButton = document.getElementById('YourExperimentPostButton');
+            addListener(postButton, 'click', function () {
+                ga('send', 'event', 'Your Experiment', 'Button Click', 'Post Button');
+            });
+
+            function addListener(element, type, callback) {
+                if (element.addEventListener) element.addEventListener(type, callback);
+                else if (element.attachEvent) element.attachEvent('on' + type, callback);
+            }
+        });
+         
 </script>
 </asp:Content>
 <asp:Content runat="server" ID="FeaturedContent" ContentPlaceHolderID="FeaturedContent">
@@ -62,7 +74,7 @@
                     <br />
         <asp:UpdatePanel ID="UpdatePanel2" runat="server" >
             <ContentTemplate>
-                <asp:Button ID="PostButton" runat="server" Text="POST" OnClick="PostButton_Click" />
+                <asp:Button ID="YourExperimentPostButton" runat="server" Text="POST" OnClick="YourExperimentPostButton_Click" />
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel2">
                     <ProgressTemplate>
 
