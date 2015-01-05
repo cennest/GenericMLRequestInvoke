@@ -179,20 +179,33 @@ namespace ML
                         {
                             TableCell cell = new TableCell();
                             TextBox tb = new TextBox();
+                            RequiredFieldValidator rfv = new RequiredFieldValidator(); 
 
                             // Set a unique ID for each TextBox added
 
                             if (j == 0)
                             {
                                 tb.ID = "Parameter" + id;
+
+                                rfv.ID = "rfvParameter" + id;
+                                rfv.ControlToValidate = tb.ID;
+                                rfv.ErrorMessage = "Please enter the parameter";
+                                rfv.ValidationGroup = "groupValidator";
+                                rfv.CssClass = "required-field-validator";
                             }
                             else
                             {
                                 tb.ID = "Value" + id;
+                                rfv.ID = "rfvValue" + id;
+                                rfv.ControlToValidate = tb.ID;
+                                rfv.ErrorMessage = "Please enter the value";
+                                rfv.ValidationGroup = "groupValidator";
+                                rfv.CssClass = "required-field-validator";
                             }
 
                             // Add the control to the TableCell
                             cell.Controls.Add(tb);
+                            cell.Controls.Add(rfv);
 
                             // Add the TableCell to the TableRow
                             row.Cells.Add(cell);

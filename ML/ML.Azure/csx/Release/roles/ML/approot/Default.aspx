@@ -8,10 +8,22 @@
             m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
+
         //ga('create', 'UA-58082288-1', 'none');
         ga('create', 'UA-58082288-1', 'auto');
-        ga('send', 'event', 'PostButton', 'DynamicValues', 'clicked');
 
+        $(document).ready(function () {
+            var postButton = document.getElementById('YourExperimentPostButton');
+            addListener(postButton, 'click', function () {
+                ga('send', 'event', 'Your Experiment', 'Button Click', 'Post Button');
+            });
+
+            function addListener(element, type, callback) {
+                if (element.addEventListener) element.addEventListener(type, callback);
+                else if (element.attachEvent) element.attachEvent('on' + type, callback);
+            }
+        });
+         
 </script>
 </asp:Content>
 <asp:Content runat="server" ID="FeaturedContent" ContentPlaceHolderID="FeaturedContent">
@@ -28,11 +40,13 @@
                 <div>
                 <asp:Label runat="server" Text="EndPoint URL" ID="EndPointLbl"></asp:Label>
                 <asp:TextBox ID="EndPointTxtBox" runat="server"></asp:TextBox>
+                <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvEndPointUrl" ControlToValidate="EndPointTxtBox" ErrorMessage="Please enter a end point url." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
                 </div>
                 <br />
                 <div>
                 <asp:Label runat="server" Text="API Key" ID="APIKeyLbl"></asp:Label>
                 <asp:TextBox runat="server" ID="APIKeyTxtBox"></asp:TextBox>
+                <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvAPIKey" ControlToValidate="APIKeyTxtBox" ErrorMessage="Please enter an api key." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
                </div>
                 <br />
                 <div>
@@ -45,6 +59,7 @@
             <div id="radioButtonPanel">
         <asp:Panel ID="JSONPanel" runat="server">
              <asp:TextBox ID="TextArea" TextMode="MultiLine" Columns="50" Rows="5" runat="server"></asp:TextBox>
+             <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvTextArea" ControlToValidate="TextArea" ErrorMessage="Please paste sample request in the textbox." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
          </asp:Panel>
 
         <asp:ScriptManager ID="ScriptManager1" runat="server">
@@ -62,7 +77,7 @@
                     <br />
         <asp:UpdatePanel ID="UpdatePanel2" runat="server" >
             <ContentTemplate>
-                <asp:Button ID="PostButton" runat="server" Text="POST" OnClick="PostButton_Click" />
+                <asp:Button ID="YourExperimentPostButton" runat="server" Text="POST" OnClick="YourExperimentPostButton_Click" ValidationGroup="groupValidator" />
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel2">
                     <ProgressTemplate>
 
@@ -71,7 +86,7 @@
                 </asp:UpdateProgress>
                 <div class="response">
                     <asp:Label runat="server" Text="Response:" ID="ResponseLbl"></asp:Label>
-                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#2f96b4"></asp:Label>
+                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#FF9900"></asp:Label>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

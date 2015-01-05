@@ -40,6 +40,15 @@ namespace ML {
         protected global::System.Web.UI.WebControls.TextBox EndPointTxtBox;
         
         /// <summary>
+        /// rfvEndPointUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvEndPointUrl;
+        
+        /// <summary>
         /// APIKeyLbl control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace ML {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox APIKeyTxtBox;
+        
+        /// <summary>
+        /// rfvAPIKey control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAPIKey;
         
         /// <summary>
         /// rbtLst control.
@@ -83,6 +101,15 @@ namespace ML {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextArea;
+        
+        /// <summary>
+        /// rfvTextArea control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvTextArea;
         
         /// <summary>
         /// ScriptManager1 control.

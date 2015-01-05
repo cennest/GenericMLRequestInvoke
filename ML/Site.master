@@ -4,7 +4,7 @@
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
-    <title><%: Page.Title %> - Share ML Experiments</title>
+    <title><%: Page.Title %> Share ML Experiments</title>
     <asp:PlaceHolder runat="server">     
           <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>  
@@ -59,9 +59,8 @@
     </div>
     <footer>
         <div class="content-wrapper">
-        <div id="copy-right" class="float-right">
-            <p>Powered by Cennest Technologies</p>
-            <p>Let us know your comments <a href="mailto:daksh@cennest.com">here</a></p>
+        <div id="copy-right" class="text-align-center">
+            <p>Powered by <a href="http://cennest.com" target="_blank">Cennest Technologies</a>.<span class="margin-left-3px">Let us know your comments <a href="mailto:daksh@cennest.com">here</a>.</span></p>
         </div>
         </div>
     </footer>

@@ -7,7 +7,8 @@
 body {
     background-color: #fff;
     /*border-top: solid 10px #000;*/
-    color: #333;
+    /*color: #333;*/
+    color:#663300;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
@@ -15,7 +16,8 @@ body {
 }
 
 a {
-    color: #333;
+    /*color: #333;*/
+    color:#663300;
     outline: none;
     padding-left: 3px;
     padding-right: 3px;
@@ -24,7 +26,8 @@ a {
 
     a:link, a:visited,
     a:active, a:hover {
-        color: #333;
+        /*color: #333;*/
+        color:#663300;
     }
 
     a:hover {
@@ -60,9 +63,11 @@ mark {
 .text-align-center{
     text-align:center;
 }
+
 h1, h2, h3,
 h4, h5, h6 {
-    color: #000;
+    /*color: #000;*/
+    color:#663300;
     margin-bottom: 0;
     padding-bottom: 0;
 }
@@ -102,7 +107,7 @@ h5, h6 {
 #body {
     /*background-color: #efeeef;*/
     clear: both;
-    padding-bottom: 35px;
+    padding-bottom: 15px;
 }
 
 .main-content {
@@ -777,6 +782,9 @@ tr.pager td {
 #rbtLst tr td input{float: left;width: 20%;}
 #rbtLst tr td label{float: left;/*width: 80%;*/}
 /*New Classes*/
+.margin-left-3px{
+    margin-left:3px;
+}
 .margin-left-10px{
     margin-left:10px;
 }
@@ -811,8 +819,9 @@ table#rbtLst tbody tr td input[type=radio]{
     margin-bottom:3px;
 }
 #JSONPanel #TextArea{
-    width:819px;
+    width:80%;
     height:150px;
+    margin-top: 10px;
 }
 #UpdatePanel1{
     margin:0 auto;
@@ -825,7 +834,8 @@ table#rbtLst tbody tr td input[type=radio]{
         
 }
 .response{
-    border-top:1px solid #ccc;
+    /*border-top:1px solid #ccc;*/
+    border-top:1px solid #FCDCA9;
     padding-top:1em;
     margin-top:1em;
 }
@@ -834,6 +844,35 @@ margin-left: 6.5em;
 top: -34px;
 position: relative;
 }
+#star, #sampleExperimentInfo{
+    display:inline-block;
+}
+.info{
+    width: 100%;
+    display: table;
+}
+#star{
+    vertical-align: top;
+    font-size:1.4em;
+    width: 1%;
+}
+#star p{
+    color: red;
+    font-weight: 700;
+    margin: 10px 0 0;
+}
+#sampleExperimentInfo{
+    /*border:1px solid #999;
+    background-color:#EFEFEF;*/
+    margin-bottom:30px;
+    width:98%;
+}
+#sampleExperimentInfo p{
+    font-size:1em;
+    /*font-weight:600;*/
+    margin:12px 12px;
+}
+
 /*---------------- Tab Menu ------------------------------*/
 div.hideSkiplink
 {
@@ -871,7 +910,7 @@ div.menu ul li
     z-index: 1;
     /*border-bottom: 1px solid #FFF;*/
     z-index: 3;
-    top:0.7em;
+    top: 0.3em;
 }
 div.menu ul li.selected{
     z-index: 3;
@@ -897,13 +936,21 @@ div.menu ul li a, div.menu ul li a:visited
     -webkit-border-radius: 8px 8px 0 0;
     -moz-border-radius: 8px 8px 0 0;
     border-radius: 8px 8px 0 0;
-    background: #EEE;
-    border: 1px solid #CCC;
+    /*background: #EEE;*/
+        background:#FEF5E5;
+    /*border: 1px solid #CCC;*/
+    border: 1px solid #FCDCA9;
     border-bottom: 0;
     padding: 0 10px;
-    color: #000;
+    /*color: #000;*/
     text-decoration: none;
     behavior: url(/pie/PIE.htc);
+    font-size:1.1em;
+    font-family:Trebuchet MS,Tahoma,Verdana,Arial,sans-serif;
+     -webkit-box-shadow: #f6a828 0 0 .25em;
+    -moz-box-shadow: #f6a828 0 0 .25em;
+    /*box-shadow: #CCC 0 0 .25em;*/
+    box-shadow:#f6a828 0 0 .35em;
 }
 
 div.menu ul li a:hover
@@ -921,10 +968,10 @@ div.menu ul li a:hover
 
 }
 div.menu ul .selected a{
-    background: #FFF;
+    /*background: #FFF;
     -webkit-box-shadow: #CCC 0 0 .25em;
     -moz-box-shadow: #CCC 0 0 .25em;
-    box-shadow: #CCC 0 0 .25em;
+    box-shadow: #CCC 0 0 .25em;*/
 }
 .selectedMenu
 {
@@ -945,12 +992,14 @@ div.menu ul li a:active
     color: #FFF !important;
     text-decoration: none !important;*/
     background: #FFF;
-    -webkit-box-shadow: #CCC 0 0 .25em;
-    -moz-box-shadow: #CCC 0 0 .25em;
-    box-shadow: #CCC 0 0 .25em;
+    /*-webkit-box-shadow: #f6a828 0 0 .25em;
+    -moz-box-shadow: #f6a828 0 0 .25em;*/
+    /*box-shadow: #CCC 0 0 .25em;*/
+    /*box-shadow:#f6a828 0 0 .25em;*/
     text-decoration: none;
     cursor:default;
     padding: 8px 20px;
+    font-weight:bold;
 }
 #body .main-content {
     clear: left;
@@ -962,12 +1011,143 @@ div.menu ul li a:active
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    -webkit-box-shadow: #CCC 0 0 .50em;
-    -moz-box-shadow: #CCC 0 0 .50em;
-    box-shadow: #CCC 0 0 .50em;
+    -webkit-box-shadow: #f6a828 0 0 .75em;
+    -moz-box-shadow: #f6a828 0 0 .75em;
+    /*box-shadow: #CCC 0 0 .50em;*/
+    box-shadow: #f6a828 0 0 .75em;
     behavior: url(/pie/PIE.htc);
 }
 
 a#NavigationMenu_SkipLink{
     padding:0;
+}
+#body .main-content input,
+#body .main-content textarea
+{
+    border:1px solid #FCDCA9 !important;
+    color: #663300;
+}
+/*#body .main-content input[type="radio"]{
+    display:none;
+}
+#body .main-content input[type="radio"] + label {
+    color: brown;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+#body .main-content input[type="radio"] + label {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+    -moz-border-radius:  50%;
+    border-radius:  50%;
+}
+
+#body .main-content input[type="radio"] + label {
+     background-color:brown;
+}
+
+#body .main-content input[type="radio"]:checked + label {
+     background-color:orange;
+}
+
+#body .main-content input[type="radio"] + label ,
+#body .main-content input[type="radio"]:checked + label {
+  -webkit-transition:background-color 0.4s linear;
+  -o-transition:background-color 0.4s linear;
+  -moz-transition:background-color 0.4s linear;
+  transition:background-color 0.4s linear;
+}*/
+
+/*:not(.lt-ie9) {*/
+ 
+    /* HTML5 Boilerplate accessible hidden styles */
+   #body .main-content [type="radio"] {
+      border: 0; 
+      clip: rect(0 0 0 0); 
+      height: 1px; 
+      margin: -1px; 
+      overflow: hidden; 
+      padding: 0; 
+      position: absolute; 
+      width: 1px;
+    }
+ 
+   #body .main-content [type="radio"] + label {
+      display: block;
+    }
+ 
+    /* the basic, unchecked style */
+   #body .main-content [type="radio"] + label::before {
+      content: '';
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.25em;
+      border-radius: 1em;
+      border: 0.125em solid #FEF5E5;
+      box-shadow: 0 0 0 0.15em #FCDCA9;
+ 
+      margin-right: 0.75em;
+      transition: 0.5s ease all;
+    }
+ 
+    /* the checked style using the :checked pseudo class */
+   #body .main-content [type="radio"]:checked + label::before {
+      background: #f6a828;
+      box-shadow: 0 0 0 0.15em #FCDCA9;
+    }
+ 
+    /* never forget focus styling */
+   #body .main-content [type="radio"]:focus + label::after {
+      content: '';
+      font-size: 1.5em;
+      line-height: 1;
+      vertical-align: -0.125em;
+    }
+ /*}*/
+
+#body .main-content input[type="button"],
+#body .main-content input[type="submit"],
+button{
+    background-color: #FEF5E5;
+    background-image: -moz-linear-gradient(top, #ffffff, #FEF5E5);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#FEF5E5));
+    background-image: -webkit-linear-gradient(top, #ffffff, #FEF5E5);
+    background-image: -o-linear-gradient(top, #ffffff, #FEF5E5);
+    background-image: linear-gradient(to bottom, #ffffff, #FEF5E5);
+    background-repeat: repeat-x;
+    border: 1px solid #FCDCA9;
+    border-color: #FCDCA9;
+    border-color: #FCDCA9;
+    border-bottom-color: #FCDCA9;
+    color:#663300;
+}
+/*----------------------------------------------------*/
+footer #copy-right p{
+    font-size:1.14em;
+    font-weight: 700;
+}
+
+footer #copy-right p a{
+    padding-left:0px;
+    text-decoration:none;
+}
+
+footer #copy-right p a:last-child{
+    text-decoration:underline;
+}
+
+footer #copy-right p a:hover{
+    background-color:transparent !important;
+    text-decoration:underline;
+    color:blue;
+}
+.required-field-validator{
+    width:80% !important;
+    color:red;
+    display:block;
 }

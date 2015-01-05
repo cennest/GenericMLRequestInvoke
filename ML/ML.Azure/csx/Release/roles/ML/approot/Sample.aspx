@@ -11,7 +11,19 @@
 
         //ga('create', 'UA-58082288-1', 'none');
         ga('create', 'UA-58082288-1', 'auto');
-        ga('send', 'event', 'PostButton', 'HardcodedValues', 'clicked');
+
+        $(document).ready(function () {
+            var postButton = document.getElementById('SampleExperimentPostButton');
+            addListener(postButton, 'click', function () {
+                ga('send', 'event', 'Sample Experiment', 'Button Click', 'Post Button');
+            });
+
+            function addListener(element, type, callback) {
+                if (element.addEventListener) element.addEventListener(type, callback);
+                else if (element.attachEvent) element.attachEvent('on' + type, callback);
+            }
+
+        });
 
     </script>
 </asp:Content>
@@ -19,6 +31,21 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server" ClientIDMode="Static">
     <asp:Panel runat="server" ID="FormPanel">
+        <div class="info">
+            <div id="star">
+                <p>*</p>
+            </div>
+            <div id="sampleExperimentInfo">
+                <p>
+                    Aim of the experiment accessed from this page was to create a sample for how to call the API for your machine learning experiment and not to showcase the power of Machine learning.
+                </p>
+                <p>
+                    The experiment uses demographics to predict whether a person earns over 50K a year.
+                It works on a data set called "Adult Census Income Binary Classification dataset” available in the Azure Machine Learning Sample Data Sets.
+                </p>
+            </div>
+        </div>
+
         <div class="content-wrapper">
             <div>
                 <asp:Label runat="server" Text="EndPoint URL" ID="EndPointLbl"></asp:Label>
@@ -158,7 +185,7 @@
             </asp:UpdatePanel>
         </div>
         <br />
-<%--         <script type="text/javascript">
+        <%--         <script type="text/javascript">
              var prm = Sys.WebForms.PageRequestManager.getInstance();
              prm.add_initializeRequest(InitializeRequest);
              prm.add_endRequest(EndRequest);
@@ -180,9 +207,9 @@
              }
     </script>--%>
 
-        <asp:UpdatePanel ID="UpdatePanel2" runat="server" >
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
             <ContentTemplate>
-                <asp:Button ID="PostButton" runat="server" Text="POST" OnClick="PostButton_Click" />
+                <asp:Button ID="SampleExperimentPostButton" runat="server" Text="POST" OnClick="SampleExperimentPostButton_Click" />
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel2">
                     <ProgressTemplate>
 
@@ -191,7 +218,7 @@
                 </asp:UpdateProgress>
                 <div class="response">
                     <asp:Label runat="server" Text="Response:" ID="ResponseLbl"></asp:Label>
-                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#2f96b4"></asp:Label>
+                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#FF9900"></asp:Label>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

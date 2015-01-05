@@ -218,7 +218,7 @@
                 </asp:UpdateProgress>
                 <div class="response">
                     <asp:Label runat="server" Text="Response:" ID="ResponseLbl"></asp:Label>
-                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#2f96b4"></asp:Label>
+                    <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#FF9900"></asp:Label>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
