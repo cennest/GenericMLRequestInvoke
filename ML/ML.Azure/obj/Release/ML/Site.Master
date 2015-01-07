@@ -1,0 +1,108 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ML.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> Share ML Experiments</title>
+    <asp:PlaceHolder runat="server">     
+          <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>  
+    <webopt:BundleReference runat="server" Path="~/Content/css" /> 
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+     <script src="Scripts/jquery-1.8.2.js"></script>
+    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
+</head>
+<body>
+    <form runat="server">
+   <%-- <asp:ScriptManager runat="server">
+        <Scripts>--%>
+            <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 --%>
+            <%--Framework Scripts--%>
+            
+           <%-- <asp:ScriptReference Name="MsAjaxBundle" />
+            <asp:ScriptReference Name="jquery" />
+            <asp:ScriptReference Name="jquery.ui.combined" />
+            <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+            <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+            <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+            <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+            <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+            <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+            <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+            <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+            <asp:ScriptReference Name="WebFormsBundle" />--%>
+            <%--Site Scripts--%>
+
+      <%--  </Scripts>
+    </asp:ScriptManager>--%>
+    <header>
+         <div class="text-align-center">
+            <h1>Azure ML Online Console</h1>
+        </div>
+        <div class="content-wrapper">
+            <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal" >
+                <Items>
+                    <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Your Experiment"/>
+                    <asp:MenuItem NavigateUrl="~/Sample.aspx" Text="Sample Experiment"/>
+
+                </Items>
+            </asp:Menu>
+        </div>
+    </header>
+    <div id="body" class="content">
+        <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
+        <section class="content-wrapper main-content clear-fix">
+            <asp:ContentPlaceHolder runat="server" ID="MainContent" />
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+        <div id="copy-right" class="text-align-center">
+            <p>Powered by <a href="http://cennest.com" target="_blank">Cennest Technologies</a>.<span class="margin-left-3px">Let us know your comments <a href="mailto:daksh@cennest.com">here</a>.</span></p>
+        </div>
+        </div>
+    </footer>
+    </form>
+        <script type="text/javascript">
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+            //ga('create', 'UA-58082288-1', 'none');
+            ga('create', 'UA-58082288-1', 'auto');
+            ga('send', 'pageview');
+
+
+            $(document).ready(function () {
+                var pageurl = window.location.href.substr(window.location.href.lastIndexOf("/") + 1);
+                if (pageurl == "") {
+                    pageurl = "Default.aspx";
+                } 
+
+                $(".menu ul li").each(function () {
+                    var anchorTag = $(this).children('a');
+                    if (anchorTag.attr("href") == pageurl) {
+                        $(this).addClass("selected");
+                    }
+                 
+                    //Google Analytics code
+
+                    if(pageurl == "Sample.aspx"){
+                        ga('send', 'event', 'Sample Experiment', 'Tab Click', 'Sample Experiment Tab');
+                    }
+                    else if (pageurl == "Default.aspx") {
+                        ga('send', 'event', 'Your Experiment', 'Tab Click', 'Your Experiment Tab');
+                    }
+            })
+            $('#NavigationMenu > ul > li > a.selected').click(function (event) {
+                event.preventDefault();
+            })
+        })
+    </script>
+</body>
+</html>
