@@ -83,7 +83,7 @@
                 if (pageurl == "") {
                     pageurl = "Default.aspx";
                 } 
-                //alert(pageurl);
+
                 $(".menu ul li").each(function () {
                     var anchorTag = $(this).children('a');
                     if (anchorTag.attr("href") == pageurl) {

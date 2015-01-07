@@ -1,35 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ML._Default" %>
 <asp:Content runat="server" ID="HeadContent" ContentPlaceHolderID="HeadContent">
     <script>
-        //(function (i, s, o, g, r, a, m) {
-        //    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        //        (i[r].q = i[r].q || []).push(arguments)
-        //    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-        //    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-        //})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-
-        ////ga('create', 'UA-58082288-1', 'none');
-        //ga('create', 'UA-58082288-1', 'auto');
-
         $(document).ready(function () {
             var interval = null;
-            //var postButton = document.getElementById('YourExperimentPostButton');
-            //addListener(postButton, 'click', function () {
-            //    ga('send', 'event', 'Your Experiment', 'Button Click', 'Post Button');
-
-            //    interval = window.setInterval(CheckVisibilityOfResponseLabel, 100);
-            //});
-
-            //function addListener(element, type, callback) {
-            //    if (element.addEventListener) element.addEventListener(type, callback);
-            //    else if (element.attachEvent) element.attachEvent('on' + type, callback);
-            //}
 
             function CheckVisibilityOfResponseLabel() {
                 if ($('#ResponseOutputLbl').is(':visible')) {
                     var postedValue = $('#ResponseOutputLbl').text();
-                    alert(postedValue);
                     clearInterval(interval);
                     ga('send', 'event', 'Your Experiment', 'Label Visible', 'Response Label');
                     return true;
