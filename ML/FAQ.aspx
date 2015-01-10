@@ -11,7 +11,7 @@
               <p>2. Where are you saving my API and Key?</p>
             </div>
                <div class="ans">
-                If you have selected "Cache Url/Key&quot; then your Url and API are safely stored in your local browser cache.
+                If you have selected "Caching" then your Url and API are safely stored in your local browser cache.
             </div>
        <div class="Q">
               <p>3. This portal is useful but i want more features!</p>
