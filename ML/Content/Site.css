@@ -847,6 +847,19 @@ position: relative;
 #star, #sampleExperimentInfo{
     display:inline-block;
 }
+
+.Q
+{
+color: black;
+   font-weight: 500;
+    margin: 20px 0 0;
+}
+
+.ans
+{
+   font-weight: 300;
+    margin:20px 0 0;
+}
 .info{
     width: 100%;
     display: table;
