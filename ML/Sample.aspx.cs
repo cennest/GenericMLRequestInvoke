@@ -20,8 +20,10 @@ namespace ML
                 rbtLst.SelectedIndex = 1;
                 UpdatePanel1.Visible = true;
                 JSONPanel.Visible = false;
+                
             }
         }
+
 
         protected void SampleExperimentPostButton_Click(object sender, EventArgs e)
         {          
@@ -49,6 +51,7 @@ namespace ML
 
         }
 
+      
 
 
         protected void rbtLst_SelectedIndexChanged(object sender, EventArgs e)

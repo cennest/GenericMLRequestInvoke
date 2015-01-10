@@ -35,6 +35,7 @@ namespace ML
                 UpdatePanel1.Visible = true;
                 GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
                 JSONPanel.Visible = false;
+                LoadFromCookie();
             }
         }
 
@@ -43,7 +44,10 @@ namespace ML
             ResponseOutputLbl.Visible = true;
             string endPointUrl = this.EndPointTxtBox.Text;
             string apiKey = this.APIKeyTxtBox.Text;
-
+            if (cacheCheckBox.Checked)
+            {
+                SaveCookie();
+            }
             if (UpdatePanel1.Visible)
             {
                 if (ViewState["RowsCount"] != null)
@@ -74,6 +78,26 @@ namespace ML
 
         }
 
+        private void LoadFromCookie()
+        {
+            HttpCookie azureMLCookies = Request.Cookies["AzureMLExperiment"];
+            if (azureMLCookies != null)
+            {
+                this.EndPointTxtBox.Text = azureMLCookies["url"];
+                this.APIKeyTxtBox.Text = azureMLCookies["api"];
+            }
+        }
+
+        protected void SaveCookie()
+        {
+            string endPointUrl = this.EndPointTxtBox.Text;
+            string apiKey = this.APIKeyTxtBox.Text;
+            HttpCookie userMLExperimentCookie = new HttpCookie("AzureMLExperiment");
+            userMLExperimentCookie["url"] = endPointUrl;
+            userMLExperimentCookie["api"] = apiKey;
+            Response.Cookies.Add(userMLExperimentCookie);
+
+        }
         protected void AddNewRow_Click(object sender, EventArgs e)
         {
             if (ViewState["RowsCount"] != null)

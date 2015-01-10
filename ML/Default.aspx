@@ -72,6 +72,7 @@
                     <br />
         <asp:UpdatePanel ID="UpdatePanel2" runat="server" >
             <ContentTemplate>
+            
                 <asp:Button ID="YourExperimentPostButton" runat="server" Text="POST" OnClick="YourExperimentPostButton_Click" ValidationGroup="groupValidator" />
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel2">
                     <ProgressTemplate>
@@ -79,6 +80,9 @@
                         <img alt="loading..." src="Images/ajax-loader.gif" class="imageLoader" />
                     </ProgressTemplate>
                 </asp:UpdateProgress>
+                 <asp:CheckBox runat="server" ID="cacheCheckBox" Checked="true" />
+                <asp:Label runat="server" Text="Cache Url/Key"/>
+               
                 <div class="response">
                     <asp:Label runat="server" Text="Response:" ID="ResponseLbl"></asp:Label>
                     <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#FF9900"></asp:Label>
