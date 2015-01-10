@@ -89,15 +89,15 @@
             </ContentTemplate>
         </asp:UpdatePanel>
             <br />
-      <%--      <asp:Panel runat="server">
+        <asp:Panel runat="server">
                 <div class="Q">
                    Feedback: Did you find this tool useful?
                 </div>
-                <asp:Button ID="btnUseful"  Style="margin-top: 20px" runat="server" Text="Loved it!"  ValidationGroup="groupValidator" />
+                <asp:Button ID="btnUseful"  Style="margin-top: 20px" runat="server" Text="Loved it!" OnClick="UsefulFeedback"   />
                                
-                 <asp:Button Style="margin-top: 20px;margin-left: 25px" ID="btnNotUseful" runat="server" Text="Umm.." OnClick="YourExperimentPostButton_Click" ValidationGroup="groupValidator" />
+                 <asp:Button Style="margin-top: 20px;margin-left: 25px" ID="btnNotUseful" runat="server" Text="Umm.." OnClick="NotUsefulFeedback" />
 
-            </asp:Panel>--%>
+            </asp:Panel>
         </asp:Panel>
 
    <%-- </form>--%>

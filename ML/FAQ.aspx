@@ -5,7 +5,7 @@
               <p>1. What is the aim of this portal?</p>
             </div>
                <div class="ans">
-                This portal is an attempt to provide online access to your published Azure Machine learning experiment without writing a single line of code or logging into the portal.
+                This portal is a tool to provide online access to your published Azure Machine learning experiment without writing a single line of code or logging into the Azure portal.
             </div>
        <div class="Q">
               <p>2. Where are you saving my API and Key?</p>
@@ -14,10 +14,10 @@
                 If you have selected "Caching" then your Url and API are safely stored in your local browser cache.
             </div>
        <div class="Q">
-              <p>3. This portal is useful but i want more features!</p>
+              <p>3. This portal is useful but I want more features!</p>
             </div>
                <div class="ans">
-                 We are aware that this portal is very basic right now and are trying to guage community interest so we can invest more time in it. Please send us your suggestions/questions at <a href="mailto:daksh@cennest.com">Cennest Technologies</a>  and we will definately look to incorporate your suggestions in the next update!
+                 We are aware that this portal is very basic right now and are trying to gauge community interest so we can invest more time in it. Please send us your suggestions/questions at <a href="mailto:daksh@cennest.com">Cennest Technologies</a>  and we will definately look to incorporate your suggestions in the next update!
             </div>
                  <br/>
                  <br/>

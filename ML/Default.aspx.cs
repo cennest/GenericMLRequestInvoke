@@ -16,6 +16,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Collections;
 using ML.Helper;
+using SendGrid;
+using System.Net.Mail;
 
 
 namespace ML
@@ -58,6 +60,7 @@ namespace ML
 
                 scoreData.FeatureVector = helper.ExtractParameterValue(panelTable);
                 ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+                SendEmail("Response Recieved from Your Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
 
             }
             else
@@ -74,6 +77,7 @@ namespace ML
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
                 ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
+                SendEmail("Response Recieved from Your Experiment", "Url" + endPointUrl + " recieved response :-" + outputString);
             }
 
         }
@@ -85,6 +89,44 @@ namespace ML
             {
                 this.EndPointTxtBox.Text = azureMLCookies["url"];
                 this.APIKeyTxtBox.Text = azureMLCookies["api"];
+            }
+        }
+
+        protected void NotUsefulFeedback(object sender, EventArgs e)
+        {
+            SendEmail("Feedback" ,"User said Umm");
+        }
+         protected void UsefulFeedback(object sender, EventArgs e)
+        {
+            SendEmail("Feedback", "User said Loved it");
+        }
+        private void SendEmail(string subject, string text)
+        {
+            try
+            {
+                // Create network credentials to access your SendGrid account.
+                var username = "daksh";
+                var pswd = "Anshulee25*";
+
+                var credentials = new NetworkCredential(username, pswd);
+
+                // Create the email object first, then add the properties.
+                SendGridMessage myMessage = new SendGridMessage();
+                myMessage.AddTo("anshulee@cennest.com");
+                myMessage.From = new MailAddress("anshulee@cennest.com", "Azure ML Experiment");
+                myMessage.Subject = subject;
+                myMessage.Text = text;
+
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+
+                // Send the email.
+                transportWeb.Deliver(myMessage);
+            }
+            catch(Exception ex)
+            {
+
             }
         }
 

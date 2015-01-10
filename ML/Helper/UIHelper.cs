@@ -32,10 +32,15 @@ namespace ML.Helper
                     string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
                     int inputParameterCount = scoreData.FeatureVector.Count;
                     string output = ExtractOutputFromResponse(inputParameterCount, outputString);
-
+                    if(String.IsNullOrEmpty(output))
+                    {
+                       output= "No Response";
+                    }
+                    
+    
                     return output;
                 }
-                return null;
+                return "No Response";
 
             }
             catch (Exception ex)
@@ -59,6 +64,10 @@ namespace ML.Helper
                     List<string> newArray = outputArray.Skip(inputParameterCount).ToList();
 
                     outputString = string.Join(",", newArray.ToArray());
+                    if(String.IsNullOrEmpty(outputString))
+                    {
+                        outputString = "No Response";
+                    }
                     return outputString;
                 }
 
