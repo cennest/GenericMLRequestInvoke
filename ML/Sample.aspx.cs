@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ML.Helper;
+using SendGrid;
 
 namespace ML
 {
@@ -20,6 +23,37 @@ namespace ML
                 rbtLst.SelectedIndex = 1;
                 UpdatePanel1.Visible = true;
                 JSONPanel.Visible = false;
+                
+            }
+        }
+
+        private void SendEmail(string subject, string text)
+        {
+            try
+            {
+                // Create network credentials to access your SendGrid account.
+                var username = "daksh";
+                var pswd = "Anshulee25*";
+
+                var credentials = new NetworkCredential(username, pswd);
+
+                // Create the email object first, then add the properties.
+                SendGridMessage myMessage = new SendGridMessage();
+                myMessage.AddTo("anshulee@cennest.com");
+                myMessage.From = new MailAddress("anshulee@cennest.com", "Azure ML Experiment");
+                myMessage.Subject = subject;
+                myMessage.Text = text;
+
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+
+                // Send the email.
+                transportWeb.Deliver(myMessage);
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 
@@ -33,6 +67,7 @@ namespace ML
             {
                 scoreData.FeatureVector = helper.ExtractParameterValue(panelTable);
                 ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+                SendEmail("Response Recieved from Sample Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
 
             }
             else
@@ -45,10 +80,13 @@ namespace ML
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
                 ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
+                SendEmail("Response Recieved from Sample Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
+
             }
 
         }
 
+      
 
 
         protected void rbtLst_SelectedIndexChanged(object sender, EventArgs e)

@@ -16,6 +16,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Collections;
 using ML.Helper;
+using SendGrid;
+using System.Net.Mail;
 
 
 namespace ML
@@ -35,6 +37,7 @@ namespace ML
                 UpdatePanel1.Visible = true;
                 GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
                 JSONPanel.Visible = false;
+                LoadFromCookie();
             }
         }
 
@@ -43,7 +46,10 @@ namespace ML
             ResponseOutputLbl.Visible = true;
             string endPointUrl = this.EndPointTxtBox.Text;
             string apiKey = this.APIKeyTxtBox.Text;
-
+            if (cacheCheckBox.Checked)
+            {
+                SaveCookie();
+            }
             if (UpdatePanel1.Visible)
             {
                 if (ViewState["RowsCount"] != null)
@@ -54,6 +60,7 @@ namespace ML
 
                 scoreData.FeatureVector = helper.ExtractParameterValue(panelTable);
                 ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
+                SendEmail("Response Recieved from Your Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
 
             }
             else
@@ -70,10 +77,69 @@ namespace ML
 
                 string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
                 ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
+                SendEmail("Response Recieved from Your Experiment", "Url" + endPointUrl + " recieved response :-" + outputString);
             }
 
         }
 
+        private void LoadFromCookie()
+        {
+            HttpCookie azureMLCookies = Request.Cookies["AzureMLExperiment"];
+            if (azureMLCookies != null)
+            {
+                this.EndPointTxtBox.Text = azureMLCookies["url"];
+                this.APIKeyTxtBox.Text = azureMLCookies["api"];
+            }
+        }
+
+        protected void NotUsefulFeedback(object sender, EventArgs e)
+        {
+            SendEmail("Feedback" ,"User said Umm");
+        }
+         protected void UsefulFeedback(object sender, EventArgs e)
+        {
+            SendEmail("Feedback", "User said Loved it");
+        }
+        private void SendEmail(string subject, string text)
+        {
+            try
+            {
+                // Create network credentials to access your SendGrid account.
+                var username = "daksh";
+                var pswd = "Anshulee25*";
+
+                var credentials = new NetworkCredential(username, pswd);
+
+                // Create the email object first, then add the properties.
+                SendGridMessage myMessage = new SendGridMessage();
+                myMessage.AddTo("anshulee@cennest.com");
+                myMessage.From = new MailAddress("anshulee@cennest.com", "Azure ML Experiment");
+                myMessage.Subject = subject;
+                myMessage.Text = text;
+
+
+                // Create an Web transport for sending email.
+                var transportWeb = new Web(credentials);
+
+                // Send the email.
+                transportWeb.Deliver(myMessage);
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
+
+        protected void SaveCookie()
+        {
+            string endPointUrl = this.EndPointTxtBox.Text;
+            string apiKey = this.APIKeyTxtBox.Text;
+            HttpCookie userMLExperimentCookie = new HttpCookie("AzureMLExperiment");
+            userMLExperimentCookie["url"] = endPointUrl;
+            userMLExperimentCookie["api"] = apiKey;
+            Response.Cookies.Add(userMLExperimentCookie);
+
+        }
         protected void AddNewRow_Click(object sender, EventArgs e)
         {
             if (ViewState["RowsCount"] != null)

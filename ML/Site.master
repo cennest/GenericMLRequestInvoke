@@ -46,6 +46,7 @@
                 <Items>
                     <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Your Experiment"/>
                     <asp:MenuItem NavigateUrl="~/Sample.aspx" Text="Sample Experiment"/>
+                    <asp:MenuItem NavigateUrl="~/FAQ.aspx" Text="FAQs & Feedback"/>
 
                 </Items>
             </asp:Menu>
