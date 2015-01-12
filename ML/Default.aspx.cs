@@ -33,10 +33,10 @@ namespace ML
         {
             if (!IsPostBack)
             {
-                rbtLst.SelectedIndex = 1;
-                UpdatePanel1.Visible = true;
+                rbtLst.SelectedIndex = 0;
+                JSONPanel.Visible = true;
                 GenerateTable(numOfRows, ML.Enums.TableFunction.Refresh.ToString());
-                JSONPanel.Visible = false;
+                UpdatePanel1.Visible = false;
                 LoadFromCookie();
             }
         }
@@ -60,24 +60,31 @@ namespace ML
 
                 scoreData.FeatureVector = helper.ExtractParameterValue(panelTable);
                 ResponseOutputLbl.Text = helper.GetAndPostData(endPointUrl, apiKey, scoreData.FeatureVector);
-                SendEmail("Response Recieved from Your Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
+                new SendMailHelper().SendEmail("Response Recieved from Your Experiment", "Url " + endPointUrl + " recieved response :- " + ResponseOutputLbl.Text);
 
             }
             else
             {
                 string json = TextArea.Text;
                 json = json.Trim();
+                                
+                    try{
+                       ScoreRequest scoreRequest = new JavaScriptSerializer().Deserialize<ScoreRequest>(json);
+                       int inputParameterCount = 0;
+                       if (scoreRequest != null)
+                       {
+                           inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
+                       }
 
-                ScoreRequest scoreRequest = new JavaScriptSerializer().Deserialize<ScoreRequest>(json);
-                int inputParameterCount = 0;
-                if (scoreRequest != null)
-                {
-                    inputParameterCount = scoreRequest.Instance.FeatureVector.Count;
-                }
-
-                string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
-                ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
-                SendEmail("Response Recieved from Your Experiment", "Url" + endPointUrl + " recieved response :-" + outputString);
+                       string outputString = HttpHelper.HttpPost(endPointUrl, apiKey, json.ToString());
+                       ResponseOutputLbl.Text = helper.ExtractOutputFromResponse(inputParameterCount, outputString);
+                       new SendMailHelper().SendEmail("Response Recieved from Your Experiment", "Url" + endPointUrl + " recieved response :-" + outputString);
+                    }
+                    catch (Exception ex)
+                    {
+                        ScriptManager.RegisterStartupScript(this, GetType(), "showalert", "alert('Please check your Json Request format !!');", true);
+                    }
+                
             }
 
         }
@@ -89,54 +96,58 @@ namespace ML
             {
                 this.EndPointTxtBox.Text = azureMLCookies["url"];
                 this.APIKeyTxtBox.Text = azureMLCookies["api"];
+                string jsonData = azureMLCookies["json"].ToString();
+                this.TextArea.Text = jsonData.Replace("%0a",System.Environment.NewLine);
             }
         }
 
-        protected void NotUsefulFeedback(object sender, EventArgs e)
-        {
-            SendEmail("Feedback" ,"User said Umm");
-        }
-         protected void UsefulFeedback(object sender, EventArgs e)
-        {
-            SendEmail("Feedback", "User said Loved it");
-        }
-        private void SendEmail(string subject, string text)
-        {
-            try
-            {
-                // Create network credentials to access your SendGrid account.
-                var username = "daksh";
-                var pswd = "Anshulee25*";
+        //protected void NotUsefulFeedback(object sender, EventArgs e)
+        //{
+        //    SendEmail("Feedback" ,"User said Umm");
+        //}
+        // protected void UsefulFeedback(object sender, EventArgs e)
+        //{
+        //    SendEmail("Feedback", "User said Loved it");
+        //}
+        //private void SendEmail(string subject, string text)
+        //{
+        //    try
+        //    {
+        //        // Create network credentials to access your SendGrid account.
+        //        var username = "daksh";
+        //        var pswd = "Anshulee25*";
 
-                var credentials = new NetworkCredential(username, pswd);
+        //        var credentials = new NetworkCredential(username, pswd);
 
-                // Create the email object first, then add the properties.
-                SendGridMessage myMessage = new SendGridMessage();
-                myMessage.AddTo("anshulee@cennest.com");
-                myMessage.From = new MailAddress("anshulee@cennest.com", "Azure ML Experiment");
-                myMessage.Subject = subject;
-                myMessage.Text = text;
+        //        // Create the email object first, then add the properties.
+        //        SendGridMessage myMessage = new SendGridMessage();
+        //        myMessage.AddTo("anshulee@cennest.com");
+        //        myMessage.From = new MailAddress("anshulee@cennest.com", "Azure ML Experiment");
+        //        myMessage.Subject = subject;
+        //        myMessage.Text = text;
 
 
-                // Create an Web transport for sending email.
-                var transportWeb = new Web(credentials);
+        //        // Create an Web transport for sending email.
+        //        var transportWeb = new Web(credentials);
 
-                // Send the email.
-                transportWeb.Deliver(myMessage);
-            }
-            catch(Exception ex)
-            {
+        //        // Send the email.
+        //        transportWeb.Deliver(myMessage);
+        //    }
+        //    catch(Exception ex)
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
         protected void SaveCookie()
         {
             string endPointUrl = this.EndPointTxtBox.Text;
             string apiKey = this.APIKeyTxtBox.Text;
+            string jsonData = this.TextArea.Text;
             HttpCookie userMLExperimentCookie = new HttpCookie("AzureMLExperiment");
             userMLExperimentCookie["url"] = endPointUrl;
             userMLExperimentCookie["api"] = apiKey;
+            userMLExperimentCookie["json"] = jsonData;
             Response.Cookies.Add(userMLExperimentCookie);
 
         }
@@ -147,7 +158,7 @@ namespace ML
                 numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
                 numOfRows = numOfRows + 1;
                 GenerateTable(numOfRows, ML.Enums.TableFunction.Add.ToString());
-               
+
             }
         }
 
@@ -157,7 +168,7 @@ namespace ML
             {
                 numOfRows = Convert.ToInt32(ViewState["RowsCount"].ToString());
                 numOfRows = numOfRows - 1;
-                GenerateTable(numOfRows, ML.Enums.TableFunction.Delete.ToString());              
+                GenerateTable(numOfRows, ML.Enums.TableFunction.Delete.ToString());
             }
         }
 
@@ -199,7 +210,7 @@ namespace ML
         }
 
         //Genrates the table dyanmically for the Table Work Experiance and add the to the page
-        private void GenerateTable(int rowsCount,string tableFunction)
+        private void GenerateTable(int rowsCount, string tableFunction)
         {
             try
             {
@@ -245,7 +256,7 @@ namespace ML
                         {
                             TableCell cell = new TableCell();
                             TextBox tb = new TextBox();
-                            RequiredFieldValidator rfv = new RequiredFieldValidator(); 
+                            RequiredFieldValidator rfv = new RequiredFieldValidator();
 
                             // Set a unique ID for each TextBox added
 
@@ -304,7 +315,7 @@ namespace ML
             {
                 throw ex;
             }
-            
+
 
         }
 

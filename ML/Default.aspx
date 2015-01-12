@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="ML._Default" %>
+<%@ Register TagPrefix="uc" TagName="FeedBackUserControl" 
+    Src="~/UserControls/FeedBackUserControl.ascx" %>
 <asp:Content runat="server" ID="HeadContent" ContentPlaceHolderID="HeadContent">
     <script>
         $(document).ready(function () {
@@ -35,7 +37,7 @@
                 <div>
                 <asp:Label runat="server" Text="EndPoint URL" ID="EndPointLbl"></asp:Label>
                 <asp:TextBox ID="EndPointTxtBox" runat="server"></asp:TextBox>
-                <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvEndPointUrl" ControlToValidate="EndPointTxtBox" ErrorMessage="Please enter a end point url." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvEndPointUrl" ControlToValidate="EndPointTxtBox" ErrorMessage="Please enter an endpoint url." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
                 </div>
                 <br />
                 <div>
@@ -53,8 +55,15 @@
             </div>
             <div id="radioButtonPanel">
         <asp:Panel ID="JSONPanel" runat="server">
-             <asp:TextBox ID="TextArea" TextMode="MultiLine" Columns="50" Rows="5" runat="server"></asp:TextBox>
-             <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvTextArea" ControlToValidate="TextArea" ErrorMessage="Please paste sample request in the textbox." ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
+             <asp:TextBox ID="TextArea" TextMode="MultiLine" Columns="50" Rows="5" runat="server" placeholder="{
+  'Id': 'score00001',
+  'Instance': {
+    'FeatureVector': {
+     ...    },
+    'GlobalParameters': {}
+  }
+}"></asp:TextBox>
+             <asp:RequiredFieldValidator runat="server" CssClass="required-field-validator" ID="rfvTextArea" ControlToValidate="TextArea" ErrorMessage="Please provide Json request data" ValidationGroup="groupValidator"></asp:RequiredFieldValidator>
          </asp:Panel>
 
         <asp:ScriptManager ID="ScriptManager1" runat="server">
@@ -81,7 +90,7 @@
                     </ProgressTemplate>
                 </asp:UpdateProgress>
                  <asp:CheckBox runat="server" ID="cacheCheckBox" Checked="true" />
-                <asp:Label runat="server" Text="Cache Url and Key in my browser"/>
+                <asp:Label runat="server" Text="Cache my data in my browser (Key-Value data is not cached currently)."/>
                 <div class="response">
                     <asp:Label runat="server" Text="Response:" ID="ResponseLbl"></asp:Label>
                     <asp:Label runat="server" ID="ResponseOutputLbl" Text="" ForeColor="#FF9900"></asp:Label>
@@ -90,15 +99,21 @@
         </asp:UpdatePanel>
             <br />
         <asp:Panel runat="server">
-                <div class="Q">
+                <%--<div class="Q">
                    Feedback: Did you find this tool useful?
                 </div>
                 <asp:Button ID="btnUseful"  Style="margin-top: 20px" runat="server" Text="Loved it!" OnClick="UsefulFeedback"   />
                                
-                 <asp:Button Style="margin-top: 20px;margin-left: 25px" ID="btnNotUseful" runat="server" Text="Umm.." OnClick="NotUsefulFeedback" />
-
+                 <asp:Button Style="margin-top: 20px;margin-left: 25px" ID="btnNotUseful" runat="server" Text="Umm.." OnClick="NotUsefulFeedback" />--%>
+            <uc:FeedBackUserControl ID="feedbackControl" runat="server" />
             </asp:Panel>
         </asp:Panel>
+    
+      <script type="text/javascript">
+          function Showalert() {
+              alert('alert');
+          }
+       </script>
 
    <%-- </form>--%>
 </asp:Content>

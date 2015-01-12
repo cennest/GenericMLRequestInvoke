@@ -7,18 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ML {
+namespace ML.UserControls {
     
     
-    public partial class FAQ {
+    public partial class FeedBackUserControl {
         
         /// <summary>
-        /// feedbackControl control.
+        /// btnUseful control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::ML.UserControls.FeedBackUserControl feedbackControl;
+        protected global::System.Web.UI.WebControls.Button btnUseful;
+        
+        /// <summary>
+        /// btnNotUseful control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNotUseful;
     }
 }
